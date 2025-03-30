@@ -15,12 +15,18 @@ function love.load()
 
     -- sprites
     Assets["spr_bing"] = love.graphics.newImage(paths.image("spr_bing"))
+    Assets["spr_youtube"] = love.graphics.newImage(paths.image("bwords/spr_youtube"))
+    Assets["spr_love2d"] = love.graphics.newImage(paths.image("bwords/spr_love2d"))
+
+    -- fonts
+    Assets["fnt_comic1"] = love.graphics.newFont(paths.font("fnt_comic1"),14,"normal") -- may replace with an imagefont later on..
 
     -- music
     Assets["mus_menu"] = love.audio.newSource(paths.audio("mus_menu"),"static")
 
     -- sfx
     Assets["snd_recordscratch"] = love.audio.newSource(paths.audio("snd_recordscratch"),"static")
+    Assets["snd_gunkayy"] = love.audio.newSource(paths.audio("snd_gunkayy"),"static")
 
     Gamestate.registerEvents()
     Gamestate.switch(States.recordsratch)

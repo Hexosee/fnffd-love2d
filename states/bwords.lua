@@ -3,6 +3,9 @@ local state = {}
 state.name = "bwords"
 
 local midi = require("lib.midiclock")
+local tick = 0
+local lasttick = 0
+local part = 0
 
 function state:enter()
     midi.song = Assets["mus_menu"]
@@ -12,14 +15,57 @@ end
 
 function state:update()
     midi.update()
+
+    if midi.div_4_trigger == true then
+        tick=tick+1
+    end
+
+    if (tick == 1 or tick == 3 or tick == 5 or tick == 7 or tick == 9 or tick == 11 or tick == 13 or tick == 15 or tick == 16 or tick == 17) and tick ~= lasttick then
+        part=part+1
+
+        if part == 4 then
+            love.audio.play(Assets["snd_gunkayy"])
+        end
+
+    end
+
+    lasttick = tick
+
 end
 
 function state:draw()
-    if midi.div_4_trigger then
-        love.graphics.print("beeb",10,20)
-    else
-        love.graphics.print(":(",10,20)
+    love.graphics.setFont(Assets["fnt_comic1"])
+    if part == 1 then
+        love.graphics.printf("HEXOSE",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+    elseif part == 2 then
+        love.graphics.printf("PRESENT",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+    elseif part == 3 then
+        love.graphics.printf("IN ASSOCIATION WITH",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+    elseif part == 4 then
+        love.graphics.printf("IN ASSOCIATION WITH",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.draw(Assets["spr_love2d"],50,380,0,4,4)
+        love.graphics.draw(Assets["spr_youtube"],420,380,0,4,4)
+    elseif part == 5 then
+        love.graphics.printf("sorry kayla",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+    elseif part == 6 then
+        love.graphics.printf("sorry kayla",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf("i stole your font",2,350,love.graphics.getWidth()/4,"center",0,4,4)
+    elseif part == 7 then
+        love.graphics.printf("FNFFD",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+    elseif part == 8 then
+        love.graphics.printf("FNFFD",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf("LOVE2D",2,350,love.graphics.getWidth()/4,"center",0,4,4)
+    elseif part == 9 then
+        love.graphics.printf("FNFFD",2,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf("LOVE2D",2,350,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf("PORT",2,420,love.graphics.getWidth()/4,"center",0,4,4)
     end
+
+    if midi.div_4_trigger then
+        love.graphics.print("peeb!",10,50)
+    end
+
+    love.graphics.print(part,10,25)
 end
 
 return state
