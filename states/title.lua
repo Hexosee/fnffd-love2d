@@ -57,7 +57,7 @@ function state:draw()
     if not byebye then
         Assets["spr_menugf"]:draw(love.graphics.getWidth()/2,love.graphics.getWidth(),0,4,4,Assets["spr_menugf"].width/2,Assets["spr_menugf"].height)
     else
-        love.graphics.draw(Assets["spr_menugfyeah"],love.graphics.getWidth()/2,love.graphics.getWidth(),0,4,4,Assets["spr_menugfyeah"].width/2,Assets["spr_menugfyeah"].height)
+        love.graphics.draw(Assets["spr_menugfyeah"],love.graphics.getWidth()/2,love.graphics.getWidth(),0,4,4,Assets["spr_menugfyeah"]:getWidth()/2,Assets["spr_menugfyeah"]:getHeight())
     end
     love.graphics.setColor(255,255,255,0.5)
     love.graphics.draw(Assets["spr_titlewords"],10,love.graphics.getHeight()-10,0,4,4,0,Assets["spr_titlewords"]:getHeight())
