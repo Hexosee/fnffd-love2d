@@ -9,6 +9,7 @@ local titlespr = "spr_title_0"
 
 local switchtimer = 30
 local byebye = false
+local yeah = false
 
 local fade = coolshit.newFade("out",0.05,255,255,255)
 
@@ -47,6 +48,7 @@ end
 function state:keypressed(key)
     if key == "return" and not byebye then -- ITS CALLED ENTER YOU IDIOT
         byebye = true
+        yeah = true
         fade.alpha = 1
         love.audio.play(Assets["snd_josh"])
     end
@@ -58,7 +60,7 @@ function state:draw()
     end
     Assets["spr_menubacksg"]:draw(0,0,1,0,4,4)
     love.graphics.draw(Assets[titlespr],love.graphics.getWidth()/2,190,0,4+scale,4+scale,Assets["spr_title_0"]:getWidth()/2,Assets["spr_title_0"]:getHeight()/2)
-    if not byebye then
+    if not yeah then
         Assets["spr_menugf"]:draw(love.graphics.getWidth()/2,love.graphics.getWidth(),0,4,4,Assets["spr_menugf"].width/2,Assets["spr_menugf"].height)
     else
         love.graphics.draw(Assets["spr_menugfyeah"],love.graphics.getWidth()/2,love.graphics.getWidth(),0,4,4,Assets["spr_menugfyeah"]:getWidth()/2,Assets["spr_menugfyeah"]:getHeight())
