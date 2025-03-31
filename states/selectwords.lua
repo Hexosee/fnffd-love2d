@@ -25,6 +25,9 @@ function state:keypressed(key)
     if key == "down" then
         sel=sel+1
     end
+    if key == "enter" then
+        Gamestate.switch(States.stage)
+    end
     sel = coolshit.clamp(sel,1,4)
 end
 

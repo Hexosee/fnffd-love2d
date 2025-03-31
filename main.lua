@@ -52,13 +52,3 @@ end
 function love.update()
     if love.timer then love.timer.sleep(1/60) end
 end
-
-
-function love.draw()
-    print("WOOO!")
-    if Gamestate.current().name ~= nil then
-        love.graphics.print(Gamestate.current().name,10,10)
-    else
-        love.graphics.print("name your state you moron",10,10)
-    end
-end

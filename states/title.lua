@@ -1,6 +1,5 @@
 local state = {}
 
-state.name = "title"
 
 local coolshit = require("lib.coolshit")
 local midi = require("lib.midiclock")

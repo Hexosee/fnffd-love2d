@@ -1,7 +1,5 @@
 local state = {}
 
-state.name = "bwords"
-
 local midi = require("lib.midiclock")
 local tick = 0
 local lasttick = 0
@@ -74,12 +72,6 @@ function state:draw()
         love.graphics.printf("LOVE2D",textofs,350,love.graphics.getWidth()/4,"center",0,4,4)
         love.graphics.printf("PORT",textofs,420,love.graphics.getWidth()/4,"center",0,4,4)
     end
-
-    if midi.div_4_trigger then
-        love.graphics.print("peeb!",10,50)
-    end
-    love.graphics.print(midi.song:tell("seconds"),10,100)
-    love.graphics.print(part,10,25)
 end
 
 return state

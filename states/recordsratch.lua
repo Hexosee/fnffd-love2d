@@ -1,8 +1,6 @@
 local state = {}
 local bingtimer = 0
 
-state.name = "recordsratch"
-
 function state:enter()
     love.audio.play(Assets.snd_recordscratch)
 end
