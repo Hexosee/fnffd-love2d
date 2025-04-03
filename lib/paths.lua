@@ -12,4 +12,8 @@ function paths.font(fnt)
     return "assets/fonts/"..fnt..".ttf"
 end
 
+function paths.swows(swow)
+    return "assets/data/charts/"..swow..".swows"
+end
+
 return paths

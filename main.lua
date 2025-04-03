@@ -2,6 +2,12 @@ Gamestate = require("lib.hump.gamestate")
 States = {}
 Assets = {}
 
+Settings = {
+    downscroll = true,
+    binds = {"s","d","k","l"} -- my fucked up keybinds
+
+}
+
 local paths = require("lib.paths")
 local coolshit = require("lib.coolshit")
 
@@ -12,6 +18,7 @@ function love.load()
     States["bwords"] = require("states.bwords")
     States["title"] = require("states.title")
     States["selectwords"] = require("states.selectwords")
+    States["stage"] = require("states.stage")
 
     -- load everything at the start of the game! juuust like dx...
     -- what could possibly go wrong!
@@ -32,11 +39,15 @@ function love.load()
 
     Assets["spr_titlewords2"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("selectwords/spr_titlewords2")),222,222)
 
+    Assets["spr_uinotes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_uinotes")),45,48)
+    Assets["spr_notes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_notes")),45,48)
+
     -- fonts
     Assets["fnt_comic1"] = love.graphics.newFont(paths.font("fnt_comic1"),14,"normal") -- may replace with an imagefont later on..
 
     -- music
     Assets["mus_menu"] = love.audio.newSource(paths.audio("mus_menu"),"static")
+    Assets["mus_tutorial"] = love.audio.newSource(paths.audio("mus_tutorial"),"static")
 
     -- sfx
     Assets["snd_recordscratch"] = love.audio.newSource(paths.audio("snd_recordscratch"),"static")

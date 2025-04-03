@@ -20,10 +20,8 @@ function module.makeAnim(image, width, height, speed, duration)
 	animation.frame = 1
 
 
-	for y = 0, image:getHeight() - height, height do
-		for x = 0, image:getWidth() - width, width do
-			table.insert(animation.quads, love.graphics.newQuad(x, y, width, height, image:getDimensions()))
-		end
+	for x = 0, image:getWidth(), width do
+		table.insert(animation.quads, love.graphics.newQuad(x, 0, width, height, image:getDimensions()))
 	end
 
 	animation.duration = duration or 1
@@ -59,11 +57,10 @@ function module.makeAnimGM(image, width, height) -- idiot hexose
 	animation.width = width
 	animation.height = height
 
-	for y = 0, image:getHeight() - height, height do
-		for x = 0, image:getWidth() - width, width do
-			table.insert(animation.quads, love.graphics.newQuad(x, y, width, height, image:getDimensions()))
-		end
+	for x = 0, image:getWidth(), width do
+		table.insert(animation.quads, love.graphics.newQuad(x, 0, width, height, image:getDimensions()))
 	end
+
 
 	function animation:draw(x,y,num,r,sx,sy,ox,oy)
 		if sx == nil then sx = 1 end

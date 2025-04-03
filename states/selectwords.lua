@@ -25,8 +25,8 @@ function state:keypressed(key)
     if key == "down" then
         sel=sel+1
     end
-    if key == "enter" then
-        Gamestate.switch(States.stage)
+    if key == "return" then -- ITS. CALLED. ENTER.
+        Gamestate.switch(States.stage,"mus_tutorial")
     end
     sel = coolshit.clamp(sel,1,4)
 end
