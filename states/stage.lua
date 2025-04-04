@@ -1,3 +1,5 @@
+-- every swows implementation i make is scuffed in some way :broken_heart:
+
 local state = {}
 
 local conduct = require("lib.game.conductor")
@@ -15,8 +17,10 @@ local ready = false
 
 local notesurf = love.graphics.newCanvas(400,400)
 
-local function round(n)
-    return math.floor(n+0.5)
+local dosc,starty,syncfix
+
+local round = function(n)
+	return math.floor(n + 0.5)
 end
 
 function state:enter(prev,rawsong)
@@ -35,14 +39,22 @@ function state:enter(prev,rawsong)
     table.remove(lines,1)
     table.remove(lines,1) -- skip keys variable (I AM NEVER ADDING MULTI KEY SUPPORT)
 
-    local songlong = round( (song:getDuration("seconds")/60) * bpm * 4 )
-    local dosc, starty
+    -- var songlong=round(((audio_sound_length(obj_song.song)/60)*obj_song.bpm*4));
+    -- 1361
+    -- 145.82142639160156
+    -- 72.78947845805
+    local songlong = round( (song:getDuration("seconds")/60) * bpm * 4)
+    print("\nmy name songlong")
+    print(songlong)
+    print(song:getDuration("seconds"))
     if Settings.downscroll then
         dosc = -1
         starty = 352
+        syncfix = 0 -- porting EXPERT
     else
         dosc = 1
         starty = 48
+        syncfix = 48*2
     end
 
     conductor.bpm = bpm
@@ -60,9 +72,10 @@ function state:enter(prev,rawsong)
         local sucker = uinote:create(myx,starty,bb) -- thanks lua
         table.insert(suckers,sucker)
         -- note... notes 
+
         for b=0, songlong, 1 do
             if tonumber(lines[1]) ~= 0 then
-                local dingus = note:create(myx,starty+(b*48*notespeed*dosc),bb)
+                local dingus = note:create(myx,starty+(b*48*notespeed*dosc)+syncfix+(bb*48)*dosc,bb)
                 table.insert(dinguses,dingus)
 
             end
@@ -83,7 +96,7 @@ function state:update()
         sucker:update()
     end
     for _,dingus in ipairs(dinguses) do
-        dingus:update(conductor.x,conductor.y)
+        dingus:update(conductor.x,conductor.y*-dosc)
     end
     
 end

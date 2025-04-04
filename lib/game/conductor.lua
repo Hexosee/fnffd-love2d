@@ -13,12 +13,11 @@ function module.Conductor()
     object.bpm = 110
 
     object.songpos = 0
-    local dosc
     if Settings.downscroll then
-        dosc = -1
+        object.dosc = -1
         object.starty = 352
     else
-        dosc = 1
+        object.dosc = 1
         object.starty = 48
     end
 
@@ -26,8 +25,8 @@ function module.Conductor()
         self.songpos = self.source:tell("seconds")
         local songlong = self.source:getDuration("seconds")
         local songper = self.songpos/songlong
-        local songbeat = ((songlong/60*self.bpm*4)*(48*self.notespeed))*dosc
-        self.y = self.starty+(songper*songbeat)*dosc
+        local songbeat = ((songlong/60*self.bpm*4)*(48*self.notespeed))*self.dosc
+        self.y = self.starty+(songper*songbeat)*self.dosc
     end
 
     return object

@@ -23,7 +23,6 @@ function module:create(x,y,note)
         end
         self.y = self.yy+(y-starty)
         self.x=self.xx+x -- ???
-        print(self.y)
     end
     
     function object:draw()

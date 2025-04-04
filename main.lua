@@ -3,7 +3,7 @@ States = {}
 Assets = {}
 
 Settings = {
-    downscroll = true,
+    downscroll = false,
     binds = {"s","d","k","l"} -- my fucked up keybinds
 
 }
