@@ -2,3 +2,6 @@
 ***WARNING: jank as SHIT (and also really WIP)***
 
 my little download
+
+## how to run
+figure it out
