@@ -7,11 +7,13 @@ builds are in releases (or actions if you want new stuff early)
 ## how to run (from source)
 
 you're gonna need to install love2d! then run `love . --console` in the main directory
+
 its that simple! i think
 
 ## how to build (for whatever reason ..)
 
 install python then run `pip install makelove` in a command prompt
+
 go into the main directory and run `makelove build`, then check the bin folder
 
 ## port to 3ds?

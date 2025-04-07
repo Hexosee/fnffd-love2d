@@ -34,7 +34,12 @@ function state:keypressed(key)
         end
         --Gamestate.switch(States.stage,"mus_tutorial")
     end
-    sel = coolshit.clamp(sel,1,4)
+    if sel < 1 then
+        sel = 4
+    elseif sel > 4 then
+        sel = 1
+    end
+    --sel = coolshit.clamp(sel,1,4)
 end
 
 return state
