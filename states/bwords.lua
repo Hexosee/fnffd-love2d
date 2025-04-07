@@ -58,10 +58,10 @@ function state:draw()
         love.graphics.draw(Assets["spr_love2d"],50,380,0,4,4)
         love.graphics.draw(Assets["spr_youtube"],430,380,0,4,4)
     elseif part == 5 then
-        love.graphics.printf("sorry kayla",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf("please dont",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
     elseif part == 6 then
-        love.graphics.printf("sorry kayla",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
-        love.graphics.printf("i stole your font",textofs,350,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf("please dont",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf("sue me",textofs,350,love.graphics.getWidth()/4,"center",0,4,4)
     elseif part == 7 then
         love.graphics.printf("FNFFD",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
     elseif part == 8 then

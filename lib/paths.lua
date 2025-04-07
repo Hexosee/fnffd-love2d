@@ -16,4 +16,8 @@ function paths.swows(swow)
     return "assets/data/charts/"..swow..".swows"
 end
 
+function paths.data(whatever)
+    return "assets/data/"..whatever
+end
+
 return paths

@@ -1,11 +1,15 @@
 local module = {}
 
 function module.lerp(a,b,t)
-	return a + (b - a) * t
+	return a + (b - a) * module.d(t)
 end
 
 function module.clamp(val,min,max) -- i need my clam p../.
 	return math.max(math.min(val,max),min)
+end
+
+function module.d(t)
+	return t*love.timer.getDelta()*60
 end
 
 function module.makeAnim(image, width, height, speed, duration)
@@ -32,7 +36,7 @@ function module.makeAnim(image, width, height, speed, duration)
 
 	function animation:update()
 		if self.frame < duration then
-			self.frame=self.frame+self.speed
+			self.frame=self.frame+module.d(self.speed)
 		end
 	end
 
@@ -98,9 +102,9 @@ function module.newFade(type,speed,r,g,b)
 
 	function fade:update()
 		if self.type == "in" and self.alpha < 1 then
-			self.alpha=self.alpha+speed
+			self.alpha=self.alpha+module.d(speed)
 		elseif self.type == "out" and self.alpha > 0 then
-			self.alpha=self.alpha-speed
+			self.alpha=self.alpha-module.d(speed)
 		end
 
 		if self.type == "in" and self.alpha > 1 then

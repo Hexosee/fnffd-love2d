@@ -39,7 +39,7 @@ function state:update()
                 Gamestate.switch(States.selectwords)
             end)
         end
-        switchtimer = switchtimer - 1
+        switchtimer = switchtimer - coolshit.d(1)
     end
 
 end

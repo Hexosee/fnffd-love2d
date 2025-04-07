@@ -26,7 +26,13 @@ function state:keypressed(key)
         sel=sel+1
     end
     if key == "return" then -- ITS. CALLED. ENTER.
-        Gamestate.switch(States.stage,"mus_tutorial")
+        if sel == 2 then
+            fade = coolshit.newFade("in",0.1,0,0,0)
+            fade:setOnFinished(function()
+                Gamestate.switch(States.freeplay)
+            end)
+        end
+        --Gamestate.switch(States.stage,"mus_tutorial")
     end
     sel = coolshit.clamp(sel,1,4)
 end

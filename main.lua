@@ -18,6 +18,7 @@ function love.load()
     States["bwords"] = require("states.bwords")
     States["title"] = require("states.title")
     States["selectwords"] = require("states.selectwords")
+    States["freeplay"] = require("states.freeplay")
     States["stage"] = require("states.stage")
 
     -- load everything at the start of the game! juuust like dx...
@@ -35,6 +36,9 @@ function love.load()
     Assets["spr_menugf"] = coolshit.makeAnim(love.graphics.newImage(paths.image("title/spr_menugf")),200,200,0.2,9)
     Assets["spr_menugfyeah"] = love.graphics.newImage(paths.image("title/spr_menugfyeah"))
     Assets["spr_menubacksg"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("spr_menubacksg")),400,480)
+
+    Assets["spr_freeplayicons"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("freeplay/spr_freeplayicons")),149,149)
+
     Assets["spr_titlewords"] = love.graphics.newImage(paths.image("title/spr_titlewords"))
 
     Assets["spr_titlewords2"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("selectwords/spr_titlewords2")),222,222)
@@ -43,23 +47,21 @@ function love.load()
     Assets["spr_notes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_notes")),45,48)
 
     -- fonts
-    Assets["fnt_comic1"] = love.graphics.newFont(paths.font("fnt_comic1"),14,"normal") -- may replace with an imagefont later on..
+    --Assets["fnt_comic1"] = love.graphics.newFont(paths.font("fnt_comic1"),8,"normal")
+    Assets["fnt_comic1"] = love.graphics.newImageFont(paths.image("fnt_comic1")," !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~∎")
 
     -- music
-    Assets["mus_menu"] = love.audio.newSource(paths.audio("mus_menu"),"static")
-    Assets["mus_tutorial"] = love.audio.newSource(paths.audio("mus_tutorial"),"static")
+    Assets["mus_menu"] = love.audio.newSource(paths.audio("mus/mus_menu"),"static")
+    Assets["mus_tutorial"] = love.audio.newSource(paths.audio("mus/mus_tutorial"),"static")
+    Assets["mus_w1s1"] = love.audio.newSource(paths.audio("mus/mus_w1s1"),"static")
+    Assets["mus_w1s2"] = love.audio.newSource(paths.audio("mus/mus_w1s2"),"static")
 
     -- sfx
-    Assets["snd_recordscratch"] = love.audio.newSource(paths.audio("snd_recordscratch"),"static")
-    Assets["snd_gunkayy"] = love.audio.newSource(paths.audio("snd_gunkayy"),"static")
-    Assets["snd_josh"] = love.audio.newSource(paths.audio("snd_josh"),"static") -- doodledip!
+    Assets["snd_recordscratch"] = love.audio.newSource(paths.audio("snd/snd_recordscratch"),"static")
+    Assets["snd_gunkayy"] = love.audio.newSource(paths.audio("snd/snd_gunkayy"),"static")
+    Assets["snd_josh"] = love.audio.newSource(paths.audio("snd/snd_josh"),"static") -- doodledip!
 
     Gamestate.registerEvents()
     Gamestate.switch(States.recordsratch)
 end
 
--- if you wanna add unlimited fps support go ahead
--- cause i dont!
-function love.update()
-    if love.timer then love.timer.sleep(1/60) end
-end

@@ -1,0 +1,8 @@
+name = "fnffd-love2d"
+default_targets = ["win32", "win64"]
+build_directory = "bin"
+
+love_files = [
+    "::git-ls-tree::",
+    "-*/.*",
+]
