@@ -78,8 +78,9 @@ function state.draw()
     -- i realise i'm not upscaling any of these menus
     -- oh well
     local goog = (((col/2)-0.5) / 5) % 1
+    love.graphics.setColor(HSL(goog,0.5,0.5,1))
     Assets["spr_menubacksg"]:draw(0,lerpy/2,4,0,4,4)
-    love.graphics.setColor(HSL(goog,0.7,0.5,0.5))
+    love.graphics.setColor(HSL(goog,0.5,0.5,0.25))
     love.graphics.rectangle("fill",0,0,800,800)
     for i,thing in ipairs(names) do
         love.graphics.setColor(0,0,0,1)
