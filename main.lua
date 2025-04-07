@@ -10,10 +10,11 @@ Settings = {
 
 local paths = require("lib.paths")
 local coolshit = require("lib.coolshit")
+local okaygo = 0
+local gone = false
+local loaded = false
 
-function love.load()
-    love.graphics.setDefaultFilter("nearest", "nearest", 1) -- enable good mode
-
+local function init()
     States["recordsratch"] = require("states.recordsratch")
     States["bwords"] = require("states.bwords")
     States["title"] = require("states.title")
@@ -63,5 +64,25 @@ function love.load()
 
     Gamestate.registerEvents()
     Gamestate.switch(States.recordsratch)
+    loaded = true
 end
 
+function love.load()
+    love.graphics.setDefaultFilter("nearest", "nearest", 1) -- enable good mode
+    Assets["spr_hey"] = love.graphics.newImage(paths.image("spr_hey"))
+end
+
+function love.update()
+    okaygo=okaygo+1
+    if okaygo>2 and not gone then
+        init()
+        gone = true
+    end
+end
+
+function love.draw()
+    if not loaded then
+        love.graphics.rectangle("fill",0,0,800,800)
+        love.graphics.draw(Assets["spr_hey"],400,400,0,3,3,Assets["spr_hey"]:getWidth()/2,Assets["spr_hey"]:getHeight()/2)
+    end
+end

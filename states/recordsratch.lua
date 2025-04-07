@@ -1,14 +1,13 @@
 local state = {}
 local bingtimer = 0
 
-local coolshit = require("lib.coolshit")
-
 function state:enter()
     love.audio.play(Assets.snd_recordscratch)
 end
 
 function state:update(dt)
-    bingtimer=bingtimer+coolshit.d(1)
+    if love.timer then love.timer.sleep(1/60) end -- i hate fun
+    bingtimer=bingtimer+1
     if bingtimer > 24 then
         Gamestate.switch(States.bwords)
     end
