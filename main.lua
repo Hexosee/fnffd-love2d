@@ -1,6 +1,7 @@
 Gamestate = require("lib.hump.gamestate")
 States = {}
 Assets = {}
+Characters = {}
 
 Settings = {
     downscroll = false,
@@ -15,13 +16,6 @@ local gone = false
 local loaded = false
 
 local function init()
-    States["recordsratch"] = require("states.recordsratch")
-    States["bwords"] = require("states.bwords")
-    States["title"] = require("states.title")
-    States["selectwords"] = require("states.selectwords")
-    States["freeplay"] = require("states.freeplay")
-    States["stage"] = require("states.stage")
-
     -- load everything at the start of the game! juuust like dx...
     -- what could possibly go wrong!
 
@@ -47,6 +41,18 @@ local function init()
     Assets["spr_uinotes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_uinotes")),45,48)
     Assets["spr_notes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_notes")),45,48)
 
+
+    -- stages
+    Assets["spr_houseback1"] = love.graphics.newImage(paths.image("game/stages/mus_w1s1/spr_houseback1"))
+    Assets["spr_houseback2"] = love.graphics.newImage(paths.image("game/stages/mus_w1s1/spr_houseback2"))
+
+    -- characters
+    Characters["dude"] = coolshit.Character():new("dude")
+    Characters["lady"] = coolshit.Character():new("lady")
+    Characters["strad"] = coolshit.Character():new("strad")
+
+    Assets["spr_speaker"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("characters/lady/spr_speaker")),128,54)
+
     -- fonts
     --Assets["fnt_comic1"] = love.graphics.newFont(paths.font("fnt_comic1"),8,"normal")
     Assets["fnt_comic1"] = love.graphics.newImageFont(paths.image("fnt_comic1")," !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~∎")
@@ -61,6 +67,14 @@ local function init()
     Assets["snd_recordscratch"] = love.audio.newSource(paths.audio("snd/snd_recordscratch"),"static")
     Assets["snd_gunkayy"] = love.audio.newSource(paths.audio("snd/snd_gunkayy"),"static")
     Assets["snd_josh"] = love.audio.newSource(paths.audio("snd/snd_josh"),"static") -- doodledip!
+
+    -- states! these used to be at the top but stage needs characters and i dont wanna clutter state:enter!
+    States["recordsratch"] = require("states.recordsratch")
+    States["bwords"] = require("states.bwords")
+    States["title"] = require("states.title")
+    States["selectwords"] = require("states.selectwords")
+    States["freeplay"] = require("states.freeplay")
+    States["stage"] = require("states.stage")
 
     Gamestate.registerEvents()
     Gamestate.switch(States.recordsratch)

@@ -1,3 +1,4 @@
+local paths = require "lib.paths"
 local module = {}
 
 function module.lerp(a,b,t)
@@ -9,8 +10,16 @@ function module.clamp(val,min,max) -- i need my clam p../.
 end
 
 function module.d(t)
-	return t*love.timer.getDelta()*60
+	return math.min(t*love.timer.getDelta()*60,0.7) -- min fixes minimise bug (looking at you, robot 64.)
 end
+
+function module.keys(tab)
+	local keyset = {}
+	for k,v in pairs(tab) do
+	  keyset[#keyset + 1] = k
+	end
+	return keyset
+  end
 
 function module.makeAnim(image, width, height, speed, duration)
 	local animation = {}
@@ -123,5 +132,64 @@ function module.newFade(type,speed,r,g,b)
 	return fade
 end
 
+function module.Character()
+	local minimod = {}	
+	function minimod:new(charname)
+		local char = require(paths.char(charname))
+
+		local character = {}
+
+		character.name = charname
+		character.curAnim = "idle"
+		character.lastAnim = "idle"
+		character.animations = char.animations
+		character.sprites = {}
+		character.resetTimer = 0 -- pick a case and STICK WITH IT!
+		character.canReset = true
+
+		for i,anim in ipairs(module.keys(character.animations)) do
+			local curanim = character.animations[anim]
+			local sheet = love.graphics.newImage(paths.image("characters/"..char.name.."/"..curanim.sprite))
+
+			character.sprites[anim] = module.makeAnim(sheet,curanim.size[1],curanim.size[2],curanim.framerate,curanim.duration)
+		end
+		function character:update() -- this feels dumb
+		
+			self.resetTimer = self.resetTimer - module.d(1)
+		
+			for i,anim in ipairs(module.keys(self.sprites)) do
+				self.sprites[anim]:update()
+			end
+
+			if self.lastAnim ~= self.curAnim then
+				self.resetTimer = 60
+			end
+
+			if self.resetTimer < 0 and self.curAnim ~= "idle" and self.canReset then
+				self.curAnim = "idle"
+			end
+
+			self.lastAnim = self.curAnim
+		end
+
+		function character:bop()
+			for i,anim in ipairs(module.keys(self.sprites)) do
+				self.sprites[anim]:bop()
+			end
+		end
+
+		function character:draw(x,y,r,sx,sy)
+			self.sprites[self.curAnim]:draw(x,y,r,sx,sy,self.animations[self.curAnim].offsets[1],self.animations[self.curAnim].offsets[2])
+			--love.graphics.print(self.sprites[self.curAnim].frame,x,y,0,sx,sy)
+		end
+
+		function character:copy()
+			return minimod:new(character.name)
+		end
+
+		return character
+	end
+	return minimod
+end
 
 return module

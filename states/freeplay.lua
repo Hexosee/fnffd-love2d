@@ -90,6 +90,12 @@ function state.draw()
             end
         end
 
+        for xx=0,4,1 do
+            for yy=0,4,1 do
+                Assets["spr_freeplayicons"]:draw(750+xx-1,400+(i*400)+lerpy*5+yy-1,tonumber(icons[i]),0,2,2,Assets["spr_freeplayicons"].width,Assets["spr_freeplayicons"].height/2)
+            end
+        end
+
         if sel ~= i then
             love.graphics.setColor(0.5,0.5,0.5,1)
         else

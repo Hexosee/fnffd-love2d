@@ -20,4 +20,12 @@ function paths.data(whatever)
     return "assets/data/"..whatever
 end
 
+function paths.char(char)
+    return "assets/data/characters/"..char
+end
+
+function paths.stage(char)
+    return "assets/data/stages/"..char
+end
+
 return paths

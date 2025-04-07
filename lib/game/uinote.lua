@@ -47,7 +47,6 @@ function module:create(x,y,note)
             Assets["spr_uinotes"]:draw(self.x,self.y,self.note-3,0,1,1,Assets["spr_uinotes"].width/2,Assets["spr_uinotes"].height/2)
         end
         love.graphics.setColor(1,1,1,1)
-        love.graphics.print(tostring(self.hit),self.x,self.y)
     end
 
     return object
