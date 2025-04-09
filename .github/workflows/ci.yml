@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v2
       with:
         path: main
         submodules: true
@@ -28,17 +28,17 @@ jobs:
         echo "::set-env name=ARTIFACT_NAME_APPIMAGE::$(ls main/makelove-build/appimage | head -n1)"
         echo "::set-env name=ARTIFACT_NAME_WIN64::$(ls main/makelove-build/win64 | head -n1)"
     - name: Artifact (love)
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.ARTIFACT_NAME_LOVE }}
         path: main/makelove-build/love/${{ env.ARTIFACT_NAME_LOVE }}
     - name: Artifact (AppImage)
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.ARTIFACT_NAME_APPIMAGE }}
         path: main/makelove-build/appimage/${{ env.ARTIFACT_NAME_APPIMAGE }}
     - name: Artifact (Win64)
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.ARTIFACT_NAME_WIN64 }}
         path: main/makelove-build/win64/${{ env.ARTIFACT_NAME_WIN64 }}
