@@ -17,16 +17,8 @@ jobs:
       run: pip3 install makelove
     - name: Build
       run: cd main/ && python3 -m makelove
-    # I have this step, so I don't need to hardcode the project name in the upload-artifact steps below
-    # Sadly all of these artifacts can only be downloaded as a zip, which means that some of them will be double-zipped!
-    # This is currently a limitation of GitHub Actions: https://github.com/actions/upload-artifact/issues/3
-    # You could adapt these actions to unzip the zips first, but don't do that with the mac zip, because
-    # the GitHub Action zipping will not preserve symlinks which would effectively break the .app!
-    - name: Prepare Artifact Names
-      run: |
-        echo "::set-env name=ARTIFACT_NAME_LOVE::$(ls main/makelove-build/love | head -n1)"
-        echo "::set-env name=ARTIFACT_NAME_APPIMAGE::$(ls main/makelove-build/appimage | head -n1)"
-        echo "::set-env name=ARTIFACT_NAME_WIN64::$(ls main/makelove-build/win64 | head -n1)"
+
+# SHUT UP AND LET ME HARDCODE IT
     - name: Artifact (love)
       uses: actions/upload-artifact@v4
       with:
