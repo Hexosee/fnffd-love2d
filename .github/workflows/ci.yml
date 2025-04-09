@@ -1,38 +1,45 @@
-name: Build
-on:
-  pull_request:
-    branches: [ main ]
-  push:
-    branches: [ main, dev ]
+name: continuous-integration
+on: [push]
+
 jobs:
-  build-game:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        love_version: ['11.5']
+  build:
+    runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v4
-    - uses: nhartland/love-build@v1
-      id: love-build
+    - uses: actions/checkout@v2
       with:
-        app_name: 'fnffd_love2d'
-        love_version: ${{ matrix.love_version }}
-        source_dir: './'
-    # Upload the resulting artifacts
-    - uses: actions/upload-artifact@v4
+        path: main
+        submodules: true
+    - name: Update
+      run: sudo apt-get update
+    - name: Install Dependencies
+      run: sudo apt-get install --assume-yes wine-stable wine64 python3-pip
+    - name: Install makelove
+      run:
+        pip3 install makelove
+    - name: Build
+      run: cd main/game && python3 -m makelove
+    # I have this step, so I don't need to hardcode the project name in the upload-artifact steps below
+    # Sadly all of these artifacts can only be downloaded as a zip, which means that some of them will be double-zipped!
+    # This is currently a limitation of GitHub Actions: https://github.com/actions/upload-artifact/issues/3
+    # You could adapt these actions to unzip the zips first, but don't do that with the mac zip, because
+    # the GitHub Action zipping will not preserve symlinks which would effectively break the .app!
+    - name: Prepare Artifact Names
+      run: |
+        echo "::set-env name=ARTIFACT_NAME_LOVE::$(ls main/makelove-build/love | head -n1)"
+        echo "::set-env name=ARTIFACT_NAME_APPIMAGE::$(ls main/makelove-build/appimage | head -n1)"
+        echo "::set-env name=ARTIFACT_NAME_WIN64::$(ls main/makelove-build/win64 | head -n1)"
+    - name: Artifact (love)
+      uses: actions/upload-artifact@v2
       with:
-        name: hw_win32-build-${{ matrix.love_version}}
-        path: ${{ steps.love-build.outputs.win32-filename }}
-    - uses: actions/upload-artifact@v4
+        name: ${{ env.ARTIFACT_NAME_LOVE }}
+        path: main/makelove-build/love/${{ env.ARTIFACT_NAME_LOVE }}
+    - name: Artifact (AppImage)
+      uses: actions/upload-artifact@v2
       with:
-        name: hw_win64-build-${{ matrix.love_version}}
-        path: ${{ steps.love-build.outputs.win64-filename }}
-    - uses: actions/upload-artifact@v4
+        name: ${{ env.ARTIFACT_NAME_APPIMAGE }}
+        path: main/makelove-build/appimage/${{ env.ARTIFACT_NAME_APPIMAGE }}
+    - name: Artifact (Win64)
+      uses: actions/upload-artifact@v2
       with:
-        name: hw_love-build-${{ matrix.love_version}}
-        path: ${{ steps.love-build.outputs.love-filename }}
-    - uses: actions/upload-artifact@v4
-      with:
-        name: hw_linux_x86_64-build-${{ matrix.love_version}}
-        path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
+        name: ${{ env.ARTIFACT_NAME_WIN64 }}
+        path: main/makelove-build/win64/${{ env.ARTIFACT_NAME_WIN64 }}
