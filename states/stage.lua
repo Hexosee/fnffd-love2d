@@ -51,7 +51,7 @@ local animlist = {
 }
 
 local speakerind = 1
-
+local score, misses = 0, 0
 local round = function(n)
 	return math.floor(n + 0.5)
 end
@@ -178,12 +178,14 @@ function state:update()
                 table.remove(dinguses,i)
                 chars.player.curAnim = animlist[dingus.note-4]
                 chars.player:bop()
+                score=score + 100
             end
 
             if (dingus.type == 8 or dingus.type == 9) and checkCollision(dingus.y,sucker,16) and sucker.pressed then
                 table.remove(dinguses,i)
                 chars.player.curAnim = animlist[dingus.note-4]
                 chars.player:bop()
+                score=score + 25
             end
             
 
@@ -253,6 +255,16 @@ function state:draw()
             dingus:draw()
             ::continue::
         end
+
+        love.graphics.setColor(0,0,0)
+        for xx=0,3,1 do
+            for yy=0,3,1 do
+                love.graphics.printf("score: "..score.." | misses: "..misses,0+xx-1,373+yy-1,400,"center")
+            end
+        end
+        love.graphics.setColor(1,1,1)
+        love.graphics.printf("score: "..score.." | misses: "..misses,0,373,400,"center")
+
     love.graphics.setCanvas()
 
     -- stage

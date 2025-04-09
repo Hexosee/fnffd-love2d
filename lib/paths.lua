@@ -28,4 +28,8 @@ function paths.stage(char)
     return "assets/data/stages/"..char
 end
 
+function paths.video(vid)
+    return "assets/video/"..vid..".ogv"
+end
+
 return paths

@@ -41,7 +41,6 @@ local function init()
     Assets["spr_uinotes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_uinotes")),45,48)
     Assets["spr_notes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_notes")),45,48)
 
-
     -- stages
     Assets["spr_houseback1"] = love.graphics.newImage(paths.image("game/stages/mus_w1s1/spr_houseback1"))
     Assets["spr_houseback2"] = love.graphics.newImage(paths.image("game/stages/mus_w1s1/spr_houseback2"))
@@ -59,6 +58,7 @@ local function init()
 
     -- music
     Assets["mus_menu"] = love.audio.newSource(paths.audio("mus/mus_menu"),"static")
+    Assets["mus_misplaced"] = love.audio.newSource(paths.audio("mus/mus_misplaced"),"static")
     Assets["mus_tutorial"] = love.audio.newSource(paths.audio("mus/mus_tutorial"),"static")
     Assets["mus_w1s1"] = love.audio.newSource(paths.audio("mus/mus_w1s1"),"static")
     Assets["mus_w1s2"] = love.audio.newSource(paths.audio("mus/mus_w1s2"),"static")
