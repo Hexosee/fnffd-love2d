@@ -13,7 +13,7 @@ jobs:
         love_version: ['11.5']
     steps:
     - uses: actions/checkout@v4
-    - uses: ./ # User current branch
+    - uses: nhartland/love-build@v1
       id: love-build
       with:
         app_name: 'fnffd_love2d'
