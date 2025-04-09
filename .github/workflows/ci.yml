@@ -1,16 +1,38 @@
-  - name: LÖVE Build
-  # You may pin to the exact commit or the version.
-  # uses: nhartland/love-build@59f670bb62a027a04e6d0cc3502f807b5365ef8e
-  uses: nhartland/love-build@v1
-  with:
-    # Name of the application to be built
-    app_name: FNFFD LOVE2D
-    # Version of LÖVE to be used in building the application
-    love_version: # default is 11.5
-    # Path to dependencies rockspec relative to GitHub workspace
-    dependencies: # optional
-    # Path in the repository to the subdirectory containing `main.lua`. By default the repo root
-    source_dir: # default is ./
-    # Directory in the GitHub workspace where the built distributables should be located
-    result_dir: # default is release
-          
+name: Build
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main, dev ]
+jobs:
+  build-game:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        love_version: ['11.5']
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./ # User current branch
+      id: love-build
+      with:
+        app_name: 'fnffd_love2d'
+        love_version: ${{ matrix.love_version }}
+        source_dir: './'
+    # Upload the resulting artifacts
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_win32-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.win32-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_win64-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.win64-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_love-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.love-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_linux_x86_64-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
