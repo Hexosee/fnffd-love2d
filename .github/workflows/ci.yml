@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         path: main
         submodules: true
@@ -14,10 +14,9 @@ jobs:
     - name: Install Dependencies
       run: sudo apt-get install --assume-yes wine-stable wine64 python3-pip
     - name: Install makelove
-      run:
-        pip3 install makelove
+      run: pip3 install makelove
     - name: Build
-      run: cd main/game && python3 -m makelove
+      run: cd ./ && python3 -m makelove
     # I have this step, so I don't need to hardcode the project name in the upload-artifact steps below
     # Sadly all of these artifacts can only be downloaded as a zip, which means that some of them will be double-zipped!
     # This is currently a limitation of GitHub Actions: https://github.com/actions/upload-artifact/issues/3
