@@ -22,15 +22,15 @@ jobs:
     - name: Artifact (love)
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.ARTIFACT_NAME_LOVE }}
+        name: love
         path: main/bin/love/fnffd-love2d.love
     - name: Artifact (AppImage)
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.ARTIFACT_NAME_APPIMAGE }}
+        name: appimage
         path: main/bin/appimage/fnffd-love2d-appimage.appimage
     - name: Artifact (Win64)
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.ARTIFACT_NAME_WIN64 }}
+        name: win64
         path: main/bin/win64/fnffd-love2d-win64.zip
