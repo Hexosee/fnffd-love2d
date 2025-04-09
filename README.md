@@ -2,7 +2,8 @@
 ***WARNING: jank as SHIT (and also really WIP)***
 
 my little download
-builds are in releases (or actions if you want new stuff early)
+
+builds are in actions
 
 ## how to run (from source)
 
