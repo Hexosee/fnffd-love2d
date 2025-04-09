@@ -1,69 +1,16 @@
-env:
-  BUILD_TYPE: ${{ fromJSON('["dev", "release"]')[startsWith(github.ref, 'refs/tags/v')] }}
-  CORE_LOVE_PACKAGE_PATH: ./core.love
-  CORE_LOVE_ARTIFACT_NAME: core_love_package
-  PRODUCT_NAME: fnffd-love2d
-  BUNDLE_ID: com.hexose.fnffd_love2d
-
-jobs:
-  build-core:
-    runs-on: ubuntu-latest
-    env:
-      OUTPUT_FOLDER: ./build
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Build core love package
-        uses: love-actions/love-actions-core@v2
-        with:
-          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua
-          package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-      - name: Upload core love package
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-          path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-  build-windows:
-    runs-on: windows-latest
-    needs: [build-core]
-    env:
-      OUTPUT_FOLDER: ./build
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      # Download your core love package here
-      - name: Download core love package
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      # This is an example dynamic library
-      - name: Build Windows packages
-        id: build-packages
-        uses: love-actions/love-actions-windows@v2
-        with:
-          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
-          rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
-          extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll
-          extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll
-          product-name: ${{ env.PRODUCT_NAME }}
-          app-id: ${{ secrets.APP_ID }}
-          installer-languages: English.isl
-          output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload 32-bit artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_Windows_x86
-          path: ${{ env.OUTPUT_FOLDER }}/${{ env.PRODUCT_NAME }}_x86.zip
-      - name: Upload 64-bit artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_Windows_x64
-          path: ${{ env.OUTPUT_FOLDER }}/${{ env.PRODUCT_NAME }}_x64.zip
-      - name: Upload installer artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_Windows_installer
-          path: ${{ env.OUTPUT_FOLDER }}/${{ env.PRODUCT_NAME }}_installer.exe
+  - name: LÖVE Build
+  # You may pin to the exact commit or the version.
+  # uses: nhartland/love-build@59f670bb62a027a04e6d0cc3502f807b5365ef8e
+  uses: nhartland/love-build@v1
+  with:
+    # Name of the application to be built
+    app_name: FNFFD LOVE2D
+    # Version of LÖVE to be used in building the application
+    love_version: # default is 11.5
+    # Path to dependencies rockspec relative to GitHub workspace
+    dependencies: # optional
+    # Path in the repository to the subdirectory containing `main.lua`. By default the repo root
+    source_dir: # default is ./
+    # Directory in the GitHub workspace where the built distributables should be located
+    result_dir: # default is release
+          
