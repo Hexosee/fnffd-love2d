@@ -1,5 +1,5 @@
 name = "fnffd-love2d"
-default_targets = ["win32", "win64","appimage"]
+default_targets = ["win64","appimage"]
 build_directory = "bin"
 
 love_files = [
