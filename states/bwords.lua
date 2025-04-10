@@ -1,15 +1,30 @@
 local state = {}
 
 local midi = require("lib.midiclock")
+local paths = require("lib.paths")
+local coolshit = require("lib.coolshit")
 local tick = 0
 local lasttick = 0
 local part = 0
+
+local bwords = nil
 
 function state:enter()
     midi.song = Assets["mus_menu"]
     Assets["mus_menu"]:setLooping(true)
     midi.bpm = 110
     midi.song:play()
+
+    math.randomseed(os.time())
+
+    local lines = {}
+    for line in love.filesystem.lines(paths.data("bwords.txt")) do
+        table.insert(lines,line)
+        math.random()
+    end
+
+    bwords = coolshit.split(lines[math.random(1,#lines)],"//")
+
 end
 
 function state:update()
@@ -58,10 +73,10 @@ function state:draw()
         love.graphics.draw(Assets["spr_love2d"],50,380,0,4,4)
         love.graphics.draw(Assets["spr_youtube"],430,380,0,4,4)
     elseif part == 5 then
-        love.graphics.printf("please dont",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf(bwords[1],textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
     elseif part == 6 then
-        love.graphics.printf("please dont",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
-        love.graphics.printf("sue me",textofs,350,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf(bwords[1],textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
+        love.graphics.printf(bwords[2],textofs,350,love.graphics.getWidth()/4,"center",0,4,4)
     elseif part == 7 then
         love.graphics.printf("FNFFD",textofs,280,love.graphics.getWidth()/4,"center",0,4,4)
     elseif part == 8 then

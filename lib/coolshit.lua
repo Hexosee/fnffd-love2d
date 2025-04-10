@@ -13,6 +13,17 @@ function module.d(t)
 	return math.min(t*love.timer.getDelta()*60,0.7) -- min fixes minimise bug (looking at you, robot 64.)
 end
 
+function module.split(inputstr, sep)
+    if sep == nil then
+      sep = "%s"
+    end
+    local t = {}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+      table.insert(t, str)
+    end
+    return t
+  end
+
 function module.keys(tab)
 	local keyset = {}
 	for k,v in pairs(tab) do

@@ -2,17 +2,6 @@ local paths = require "lib.paths"
 local coolshit = require "lib.coolshit"
 local state = {}
 
-local function split(inputstr, sep)
-    if sep == nil then
-      sep = "%s"
-    end
-    local t = {}
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-      table.insert(t, str)
-    end
-    return t
-  end
-
 local names = {}
 local swowses = {}
 local icons = {}
@@ -28,9 +17,9 @@ function state.init()
         table.insert(lines,line)
     end
     for i,thing in ipairs(lines) do
-        names[i] = split(thing,";")[1]
-        swowses[i] = split(thing,";")[2]
-        icons[i] = split(thing,";")[3]
+        names[i] = coolshit.split(thing,";")[1]
+        swowses[i] = coolshit.split(thing,";")[2]
+        icons[i] = coolshit.split(thing,";")[3]
     end
 end
 
