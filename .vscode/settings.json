@@ -1,5 +1,6 @@
 {
     "Lua.diagnostics.disable": [
         "need-check-nil"
-    ]
+    ],
+    "pixelbyte.love2d.debug": true
 }

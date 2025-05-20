@@ -15,6 +15,8 @@ function module:create(x,y,note)
     object.note = note
     object.type = 1
 
+    object.touching = false
+
     object.candraw = {
         [1]=true,
         [2]=true,
@@ -27,7 +29,9 @@ function module:create(x,y,note)
         [9]=true,
         [10]=false
     }
-
+    local function checkCollision(y,sucker,hitbox)
+        return (y > sucker.y-hitbox and y < sucker.y+hitbox)
+    end
     function object:update(x,y,sucker)
         local starty
         if Settings.downscroll then
@@ -37,6 +41,12 @@ function module:create(x,y,note)
         end
         self.y = self.yy+(y-starty)
         self.x=self.xx+x -- ???
+
+        if checkCollision(self.y,sucker,64) then
+            self.touching = true
+        else
+            self.touching = false
+        end
 
     end
     
@@ -66,7 +76,7 @@ function module:create(x,y,note)
             else
                 Assets["spr_notes"]:draw(self.x,self.y,self.note-3,0,1,1,Assets["spr_notes"].width/2,Assets["spr_notes"].height/2)
             end
-            --love.graphics.print(self.y,self.x,self.y)
+            --love.graphics.print(self.touching and "true" or "false",self.x,self.y)
             love.graphics.setColor(1,1,1,1)
         end
     end

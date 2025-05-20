@@ -141,16 +141,15 @@ function state:update()
     if not ready then return end
     midi:update()
     conductor:update()
-    for _,sucker in ipairs(suckers) do
-        sucker:update()
-    end
     for i,dingus in ipairs(dinguses) do
-        dingus:update(conductor.x,conductor.y*-dosc)
+        local sucker = suckers[dingus.note+1]
+        dingus:update(conductor.x,conductor.y*-dosc,sucker)
         if (dingus.y < -48 and not Settings.downscroll) or (dingus.y > 848 and Settings.downscroll) then
             table.remove(dinguses,i)
+            misses=misses+1
         end
+        if not ((dingus.x >= 0 and dingus.x <= 800) and (dingus.y >= 0 and dingus.y <= 800)) then goto continue end
         -- checkCollision(dingus.y,suckers[dingus.note+1]) and (suckers[dingus.note+1].note <= 3 or suckers[dingus.note+1].pressed)
-        local sucker = suckers[dingus.note+1]
 
         if (sucker.note <= 3 and checkCollision(dingus.y,sucker,8)) then -- badguy
             table.remove(dinguses,i)
@@ -173,7 +172,7 @@ function state:update()
             * 10 = event           
         ]]
 
-        if checkCollision(dingus.y,sucker,64) then -- goodguy ..
+        if checkCollision(dingus.y,sucker,64) and not (sucker.note <= 3) then -- goodguy ..
             if (dingus.type == 1 or dingus.type == 2) and sucker.hit then -- normal notes
                 table.remove(dinguses,i)
                 chars.player.curAnim = animlist[dingus.note-4]
@@ -202,9 +201,27 @@ function state:update()
                 end
             end
         end
-        
+        ::continue::
     end
-    
+    for _,sucker in ipairs(suckers) do
+        sucker:update()
+        if sucker.hit then
+            local touched = false
+            for i,dingus in ipairs(dinguses) do
+
+                if not dingus.touching then goto continue end
+
+                if dingus.touching and dingus.note == sucker.note then
+                    touched = true
+                end
+
+                ::continue::
+            end
+            if not touched then
+                misses=misses+1
+            end
+        end
+    end
     chars.player:update()
     chars.lady:update()
     chars.badguy:update()
@@ -231,8 +248,8 @@ function state:update()
     end
 
     camera:lookAt(
-        coolshit.lerp(camera.x,state.stage.campos[camtarget][1],coolshit.d(0.15)),
-        coolshit.lerp(camera.y,state.stage.campos[camtarget][2],coolshit.d(0.15))
+        coolshit.lerp(camera.x,state.stage.campos[camtarget][1],coolshit.d(0.1)),
+        coolshit.lerp(camera.y,state.stage.campos[camtarget][2],coolshit.d(0.1))
     )
 
     state.stage:update()

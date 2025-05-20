@@ -3,11 +3,19 @@ States = {}
 Assets = {}
 Characters = {}
 
+local bitser = require("lib.bitser")
+
 Settings = {
     downscroll = false,
     binds = {"s","d","k","l"} -- my fucked up keybinds
 
 }
+
+
+if love.filesystem.getInfo("options.swaws") ~= nil then
+    Settings = bitser.loads(love.filesystem.read("options.swaws"))
+end
+
 
 local paths = require("lib.paths")
 local coolshit = require("lib.coolshit")
@@ -16,6 +24,7 @@ local gone = false
 local loaded = false
 
 local function init()
+
     -- load everything at the start of the game! juuust like dx...
     -- what could possibly go wrong!
 
