@@ -4,7 +4,11 @@ local state = {}
 local lerpy = 0
 local sel = 1
 
-local fade = coolshit.newFade("out",0.1,0,0,0)
+local fade = nil
+
+function state:enter()
+    fade = coolshit.newFade("out",0.1,0,0,0)
+end
 
 function state:update()
     fade:update()

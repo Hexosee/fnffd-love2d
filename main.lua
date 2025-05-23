@@ -49,6 +49,7 @@ local function init()
 
     Assets["spr_uinotes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_uinotes")),45,48)
     Assets["spr_notes"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_notes")),45,48)
+    Assets["spr_countdown"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("game/spr_countdown")),200,200)
 
     -- stages
     Assets["spr_houseback1"] = love.graphics.newImage(paths.image("game/stages/mus_w1s1/spr_houseback1"))
@@ -69,13 +70,28 @@ local function init()
     Assets["mus_menu"] = love.audio.newSource(paths.audio("mus/mus_menu"),"static")
     Assets["mus_misplaced"] = love.audio.newSource(paths.audio("mus/mus_misplaced"),"static")
     Assets["mus_tutorial"] = love.audio.newSource(paths.audio("mus/mus_tutorial"),"static")
+
     Assets["mus_w1s1"] = love.audio.newSource(paths.audio("mus/mus_w1s1"),"static")
     Assets["mus_w1s2"] = love.audio.newSource(paths.audio("mus/mus_w1s2"),"static")
+
+    Assets["mus_w2s1"] = love.audio.newSource(paths.audio("mus/mus_w2s1"),"static")
+    Assets["mus_w2s2"] = love.audio.newSource(paths.audio("mus/mus_w2s2"),"static")
+
+    Assets["mus_w3s1"] = love.audio.newSource(paths.audio("mus/mus_w3s1"),"static")
+    Assets["mus_w3s2"] = love.audio.newSource(paths.audio("mus/mus_w3s2"),"static")
+
+    Assets["mus_w4s1"] = love.audio.newSource(paths.audio("mus/mus_w4s1"),"static")
+    Assets["mus_w4s2"] = love.audio.newSource(paths.audio("mus/mus_w4s2"),"static")
 
     -- sfx
     Assets["snd_recordscratch"] = love.audio.newSource(paths.audio("snd/snd_recordscratch"),"static")
     Assets["snd_gunkayy"] = love.audio.newSource(paths.audio("snd/snd_gunkayy"),"static")
     Assets["snd_josh"] = love.audio.newSource(paths.audio("snd/snd_josh"),"static") -- doodledip!
+    Assets["snd_3"] = love.audio.newSource(paths.audio("snd/snd_3"),"static")
+    Assets["snd_2"] = love.audio.newSource(paths.audio("snd/snd_2"),"static")
+    Assets["snd_1"] = love.audio.newSource(paths.audio("snd/snd_1"),"static")
+    Assets["snd_go"] = love.audio.newSource(paths.audio("snd/snd_go"),"static")
+
 
     -- states! these used to be at the top but stage needs characters and i dont wanna clutter state:enter!
     States["recordsratch"] = require("states.recordsratch")

@@ -10,9 +10,10 @@ local switchtimer = 30
 local byebye = false
 local yeah = false
 
-local fade = coolshit.newFade("out",0.05,255,255,255)
+local fade = nil
 
 function state:enter()
+    fade = coolshit.newFade("out",0.05,255,255,255)
     if math.random(0,50) == 50 then
         titlespr = "spr_title_1"
     end

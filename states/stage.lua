@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 -- every swows implementation i make is scuffed in some way :broken_heart:
 
 local state = {}
@@ -9,6 +10,7 @@ local note = require("lib.game.note")
 local coolshit = require("lib.coolshit")
 local midi = require("lib.midiclock")
 local cam = require("lib.hump.camera")
+local timer = require("lib.hump.timer") -- hump coming in clutch yet again
 
 local camera = cam(0,0)
 camera:lookAt(0,0)
@@ -52,14 +54,81 @@ local animlist = {
 
 local speakerind = 1
 local score, misses = 0, 0
+
+local cdsprite = 0
+local cdalpha = {alpha = 0} -- it only accepts tables..
+local countdowned = false
+
+local song = nil
+
+local scary = false
+
+local function init() -- i'm not happy
+    camera = cam(0,0)
+    camera:lookAt(0,0)
+
+    conductor = conduct.Conductor()
+
+    suckers = {}
+    dinguses = {}
+
+    ready = false
+
+    notesurf = love.graphics.newCanvas(400,400)
+
+    dosc,starty,syncfix = 0,0,0
+
+    fade = coolshit.newFade("out",0.1,0,0,0)
+
+    chars = {
+        badguy = Characters["strad"]:copy(),
+        lady = Characters["lady"]:copy(),
+        player = Characters["dude"]:copy(),
+    }
+
+    chars.lady.canReset = false
+
+    camtarget = "lady"
+
+    animlist = {
+
+        [0]="left",
+        [1]="down",
+        [2]="up",
+        [3]="right",
+
+        [4]="leftalt",
+        [5]="downalt",
+        [6]="upalt",
+        [7]="rightalt",
+
+    }
+
+    speakerind = 1
+    score, misses = 0, 0
+
+    cdsprite = 0
+    cdalpha = {alpha = 0} -- it only accepts tables..
+    countdowned = false
+
+    song = nil
+    scary = false
+end
+
 local round = function(n)
 	return math.floor(n + 0.5)
 end
 
 function state:enter(prev,rawsong)
-    local song = Assets[rawsong]
+    init()
+    song = Assets[rawsong]
     local path = paths.swows(rawsong)
-    state.stage = require(paths.stage(rawsong))
+
+    if love.filesystem.getInfo("assets/data/stages/"..rawsong..".lua") ~= nil then
+        state.stage = require(paths.stage(rawsong))
+    else
+        state.stage = require(paths.stage("mus_w1s1"))
+    end
 
     camera:lookAt(state.stage.campos.lady[1],state.stage.campos.lady[2])
 
@@ -128,7 +197,43 @@ function state:enter(prev,rawsong)
     end
 
     love.audio.stop()
-    song:play()
+
+    -- this fucking sucks
+    -- 3
+
+
+    timer.after(0.3,function() -- 2
+        cdalpha.alpha = 1
+        love.audio.play(Assets["snd_3"])
+        timer.tween(0.9, cdalpha, {alpha = 0}, 'in-out-linear')
+    end)
+
+    timer.after(1.3,function() -- 2
+        cdalpha.alpha = 1
+        love.audio.play(Assets["snd_2"])
+        timer.tween(0.9, cdalpha, {alpha = 0}, 'in-out-linear')
+        cdsprite = cdsprite+1
+    end)
+
+    timer.after(2.3,function() -- 1
+        cdalpha.alpha = 1
+        love.audio.play(Assets["snd_1"])
+        timer.tween(0.9, cdalpha, {alpha = 0}, 'in-out-linear')
+        cdsprite = cdsprite+1
+    end)
+
+    timer.after(3.3,function() -- go
+        cdalpha.alpha = 1
+        love.audio.play(Assets["snd_go"])
+        timer.tween(0.9, cdalpha, {alpha = 0}, 'in-out-linear')
+        cdsprite = cdsprite+1
+    end)
+
+    timer.after(4.3,function() -- go
+        song:play()
+        countdowned = true
+    end)
+
     ready = true
 end
 
@@ -138,7 +243,14 @@ end
 
 function state:update()
     fade:update()
+
+    if countdowned and not conductor.source:isPlaying() and not scary then
+        scary = true
+        return Gamestate.switch(States.freeplay)
+    end
+
     if not ready then return end
+    timer.update(love.timer.getDelta())
     midi:update()
     conductor:update()
     for i,dingus in ipairs(dinguses) do
@@ -187,7 +299,6 @@ function state:update()
                 score=score + 25
             end
             
-
             if checkCollision(dingus.y,sucker,8) then
                 if dingus.type == 4 then
                     camtarget = "player"
@@ -250,7 +361,7 @@ function state:update()
     camera:lookAt(
         coolshit.lerp(camera.x,state.stage.campos[camtarget][1],coolshit.d(0.1)),
         coolshit.lerp(camera.y,state.stage.campos[camtarget][2],coolshit.d(0.1))
-    )
+    )  
 
     state.stage:update()
 
@@ -303,6 +414,10 @@ function state:draw()
     love.graphics.print("campos: ("..camera.x..", "..camera.y..")",10,40)
 
     love.graphics.draw(notesurf,0,0,0,2,2)
+
+    love.graphics.setColor(1,1,1,cdalpha.alpha)
+    Assets["spr_countdown"]:draw(0,0,cdsprite+1,0,4,4,0,0)
+    love.graphics.setColor(1,1,1,1)
     fade:draw()
 end
 

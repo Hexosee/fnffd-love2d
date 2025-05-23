@@ -9,9 +9,10 @@ local icons = {}
 local lerpy = 0
 local col = 0
 local sel = 1
-local fade = coolshit.newFade("out",0.1,0,0,0)
+local fade = nil
 
-function state.init()
+function state:enter()
+    fade = coolshit.newFade("out",0.1,0,0,0)
     local lines = {}
     for line in love.filesystem.lines(paths.data("songs.txt")) do
         table.insert(lines,line)
@@ -23,7 +24,7 @@ function state.init()
     end
 end
 
-function state.update()
+function state:update()
     lerpy = coolshit.lerp(lerpy,sel*-80,0.15)
     col = coolshit.lerp(col,sel,0.1)
 
@@ -63,7 +64,7 @@ function HSL(h, s, l, a) -- https://love2d.org/wiki/HSL_color
 	else              r,g,b = c,0,x
 	end return r+m, g+m, b+m, a
 end
-function state.draw()
+function state:draw()
     -- i realise i'm not upscaling any of these menus
     -- oh well
     local goog = (((col/2)-0.5) / 5) % 1
