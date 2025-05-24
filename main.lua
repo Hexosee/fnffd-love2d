@@ -63,9 +63,12 @@ local function init()
     Assets["fnt_comic1"] = love.graphics.newImageFont(paths.image("fnt_comic1")," !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~∎")
 
     -- music
+    
     for _,mus in ipairs(love.filesystem.getDirectoryItems("assets/audio/mus/")) do
-        print("LOADING "..mus)
-        Assets[string.gsub(mus,".ogg","")] = love.audio.newSource("assets/audio/mus/"..mus,"static")
+        if love.filesystem.getInfo("assets/audio/mus/"..mus).type == "file" then
+            print("LOADING "..mus)
+            Assets[string.gsub(mus,".ogg","")] = love.audio.newSource("assets/audio/mus/"..mus,"static")
+        end
     end
 
     -- sfx

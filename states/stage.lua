@@ -87,7 +87,7 @@ function state:enter(prev,rawsong)
     chars.lady.curAnim = "left"
 
     fade = coolshit.newFade("out",0.05,0,0,0)
-    song = Assets[rawsong]
+    song = love.audio.newSource(paths.audio("mus/songs/"..rawsong),"static")
     local path = paths.swows(rawsong)
 
     if love.filesystem.getInfo("assets/data/stages/"..rawsong..".lua") ~= nil then

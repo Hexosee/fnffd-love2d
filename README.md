@@ -19,4 +19,4 @@ go into the main directory and run `makelove build`, then check the bin folder
 
 ## port to 3ds?
 
-give me 100 bucks (its something i'll look into at some point)
+give me 100 bucks (sooon,..... maybe.....)
