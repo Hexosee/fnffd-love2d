@@ -177,7 +177,7 @@ function module.Character()
 				self.resetTimer = 60
 			end
 
-			if self.resetTimer < 0 and self.curAnim ~= "idle" and self.canReset and self.sprites[self.curAnim].frame ~= self.sprites[self.curAnim].duration then
+			if self.resetTimer < 0 and self.curAnim ~= "idle" and self.canReset then
 				self.curAnim = "idle"
 			end
 
