@@ -7,8 +7,8 @@ local bitser = require("lib.bitser")
 
 Settings = {
     downscroll = false,
-    binds = {"s","d","k","l"} -- my fucked up keybinds
-
+    binds = {"s","d","k","l"}, -- my fucked up keybinds
+    preload = true,
 }
 
 
@@ -68,6 +68,13 @@ local function init()
         if love.filesystem.getInfo("assets/audio/mus/"..mus).type == "file" then
             print("LOADING "..mus)
             Assets[string.gsub(mus,".ogg","")] = love.audio.newSource("assets/audio/mus/"..mus,"static")
+        end
+    end
+
+    if Settings.preload then
+        for _,mus in ipairs(love.filesystem.getDirectoryItems("assets/audio/mus/songs/")) do
+            print("LOADING "..mus)
+            Assets[string.gsub(mus,".ogg","")] = love.audio.newSource("assets/audio/mus/songs/"..mus,"static")
         end
     end
 

@@ -87,7 +87,11 @@ function state:enter(prev,rawsong)
     chars.lady.curAnim = "left"
 
     fade = coolshit.newFade("out",0.05,0,0,0)
-    song = love.audio.newSource(paths.audio("mus/songs/"..rawsong),"static")
+    if not Settings.preload then
+        song = love.audio.newSource(paths.audio("mus/songs/"..rawsong),"static")
+    else
+        song = Assets[rawsong]
+    end
     local path = paths.swows(rawsong)
 
     if love.filesystem.getInfo("assets/data/stages/"..rawsong..".lua") ~= nil then
