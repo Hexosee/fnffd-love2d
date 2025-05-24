@@ -188,6 +188,7 @@ function module.Character()
 			for i,anim in ipairs(module.keys(self.sprites)) do
 				self.sprites[anim]:bop()
 			end
+			self.resetTimer = 60
 		end
 
 		function character:draw(x,y,r,sx,sy)
