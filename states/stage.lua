@@ -2,6 +2,7 @@
 -- every swows implementation i make is scuffed in some way :broken_heart:
 
 local state = {}
+state.name = "stage"
 
 local conduct = require("lib.game.conductor")
 local paths = require("lib.paths")
@@ -26,15 +27,11 @@ local notesurf = love.graphics.newCanvas(400,400)
 
 local dosc,starty,syncfix
 
-local fade = coolshit.newFade("out",0.1,0,0,0)
+local fade = nil
 
 local chars = {
-    badguy = Characters["strad"]:copy(),
-    lady = Characters["lady"]:copy(),
-    player = Characters["dude"]:copy(),
+    nil,nil,nil
 }
-
-chars.lady.canReset = false
 
 local camtarget = "lady"
 
@@ -63,64 +60,33 @@ local song = nil
 
 local scary = false
 
-local function init() -- i'm not happy
-    camera = cam(0,0)
-    camera:lookAt(0,0)
-
-    conductor = conduct.Conductor()
-
-    suckers = {}
-    dinguses = {}
-
-    ready = false
-
-    notesurf = love.graphics.newCanvas(400,400)
-
-    dosc,starty,syncfix = 0,0,0
-
-    fade = coolshit.newFade("out",0.1,0,0,0)
-
-    chars = {
-        badguy = Characters["strad"]:copy(),
-        lady = Characters["lady"]:copy(),
-        player = Characters["dude"]:copy(),
-    }
-
-    chars.lady.canReset = false
-
-    camtarget = "lady"
-
-    animlist = {
-
-        [0]="left",
-        [1]="down",
-        [2]="up",
-        [3]="right",
-
-        [4]="leftalt",
-        [5]="downalt",
-        [6]="upalt",
-        [7]="rightalt",
-
-    }
-
-    speakerind = 1
-    score, misses = 0, 0
-
-    cdsprite = 0
-    cdalpha = {alpha = 0} -- it only accepts tables..
-    countdowned = false
-
-    song = nil
-    scary = false
-end
 
 local round = function(n)
 	return math.floor(n + 0.5)
 end
 
+function state:keypressed(key)
+    if key == "escape" then
+        fade = coolshit.newFade("in",0.1,0,0,0)
+        fade:setOnFinished(function()
+            Gamestate.switch(States.freeplay)
+        end)        
+    end
+end
+
 function state:enter(prev,rawsong)
-    init()
+
+    chars = { -- lady stop dying (canon)
+        badguy = coolshit.Character():new("strad"),
+        lady = coolshit.Character():new("lady"),
+        player = coolshit.Character():new("dude"),
+    }
+
+
+    chars.lady.canReset = false
+    chars.lady.curAnim = "left"
+
+    fade = coolshit.newFade("out",0.05,0,0,0)
     song = Assets[rawsong]
     local path = paths.swows(rawsong)
 
@@ -241,12 +207,21 @@ local function checkCollision(y,sucker,hitbox)
     return (y > sucker.y-hitbox and y < sucker.y+hitbox)
 end
 
+function state:leave()
+    timer:clear()
+    song:stop()
+end
+
 function state:update()
     fade:update()
 
-    if countdowned and not conductor.source:isPlaying() and not scary then
+    if countdowned and not song:isPlaying() and not scary then
         scary = true
-        return Gamestate.switch(States.freeplay)
+        if song == Assets["mus_frostbytep1"] then
+            return Gamestate.switch(States.stage,"mus_frostbytep2")
+        else
+            return Gamestate.switch(States.freeplay)
+        end
     end
 
     if not ready then return end
@@ -418,6 +393,7 @@ function state:draw()
     love.graphics.setColor(1,1,1,cdalpha.alpha)
     Assets["spr_countdown"]:draw(0,0,cdsprite+1,0,4,4,0,0)
     love.graphics.setColor(1,1,1,1)
+
     fade:draw()
 end
 

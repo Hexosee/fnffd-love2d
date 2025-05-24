@@ -144,9 +144,9 @@ function module.newFade(type,speed,r,g,b)
 end
 
 function module.Character()
-	local minimod = {}	
+	local minimod = {}
 	function minimod:new(charname)
-		local char = require(paths.char(charname))
+		local char = love.filesystem.load(paths.char(charname)..".lua")()
 
 		local character = {}
 
@@ -164,6 +164,7 @@ function module.Character()
 
 			character.sprites[anim] = module.makeAnim(sheet,curanim.size[1],curanim.size[2],curanim.framerate,curanim.duration)
 		end
+
 		function character:update() -- this feels dumb
 		
 			self.resetTimer = self.resetTimer - module.d(1)

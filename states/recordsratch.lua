@@ -1,4 +1,6 @@
 local state = {}
+state.name = "recordsratch"
+
 local bingtimer = 0
 
 function state:enter()

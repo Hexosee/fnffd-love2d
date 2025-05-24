@@ -1,4 +1,5 @@
 local state = {}
+state.name = "bwords"
 
 local midi = require("lib.midiclock")
 local paths = require("lib.paths")

@@ -1,5 +1,6 @@
 local coolshit = require "lib.coolshit"
 local state = {}
+state.name = "selectwords"
 
 local lerpy = 0
 local sel = 1

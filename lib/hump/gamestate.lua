@@ -52,7 +52,7 @@ function GS.switch(to, ...)
 	assert(to, "Missing argument: Gamestate to switch to")
 	assert(to ~= GS, "Can't call switch with colon operator")
 	;(stack[#stack].leave or __NULL__)(stack[#stack])
-	return change_state(0, to, ...)
+	return change_state(0, love.filesystem.load("states/"..to.name..".lua")(), ...) -- i could do this a little better but i dont care Sorry!
 end
 
 function GS.push(to, ...)

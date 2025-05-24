@@ -28,7 +28,7 @@ local function init()
     -- load everything at the start of the game! juuust like dx...
     -- what could possibly go wrong!
 
-    -- sprites
+    -- sprites    
     Assets["spr_bing"] = love.graphics.newImage(paths.image("spr_bing"))
 
     Assets["spr_youtube"] = love.graphics.newImage(paths.image("bwords/spr_youtube"))
@@ -55,10 +55,6 @@ local function init()
     Assets["spr_houseback1"] = love.graphics.newImage(paths.image("game/stages/mus_w1s1/spr_houseback1"))
     Assets["spr_houseback2"] = love.graphics.newImage(paths.image("game/stages/mus_w1s1/spr_houseback2"))
 
-    -- characters
-    Characters["dude"] = coolshit.Character():new("dude")
-    Characters["lady"] = coolshit.Character():new("lady")
-    Characters["strad"] = coolshit.Character():new("strad")
 
     Assets["spr_speaker"] = coolshit.makeAnimGM(love.graphics.newImage(paths.image("characters/lady/spr_speaker")),128,54)
 
@@ -67,39 +63,22 @@ local function init()
     Assets["fnt_comic1"] = love.graphics.newImageFont(paths.image("fnt_comic1")," !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~∎")
 
     -- music
-    Assets["mus_menu"] = love.audio.newSource(paths.audio("mus/mus_menu"),"static")
-    Assets["mus_misplaced"] = love.audio.newSource(paths.audio("mus/mus_misplaced"),"static")
-    Assets["mus_tutorial"] = love.audio.newSource(paths.audio("mus/mus_tutorial"),"static")
-
-    Assets["mus_w1s1"] = love.audio.newSource(paths.audio("mus/mus_w1s1"),"static")
-    Assets["mus_w1s2"] = love.audio.newSource(paths.audio("mus/mus_w1s2"),"static")
-
-    Assets["mus_w2s1"] = love.audio.newSource(paths.audio("mus/mus_w2s1"),"static")
-    Assets["mus_w2s2"] = love.audio.newSource(paths.audio("mus/mus_w2s2"),"static")
-
-    Assets["mus_w3s1"] = love.audio.newSource(paths.audio("mus/mus_w3s1"),"static")
-    Assets["mus_w3s2"] = love.audio.newSource(paths.audio("mus/mus_w3s2"),"static")
-
-    Assets["mus_w4s1"] = love.audio.newSource(paths.audio("mus/mus_w4s1"),"static")
-    Assets["mus_w4s2"] = love.audio.newSource(paths.audio("mus/mus_w4s2"),"static")
+    for _,mus in ipairs(love.filesystem.getDirectoryItems("assets/audio/mus/")) do
+        print("LOADING "..mus)
+        Assets[string.gsub(mus,".ogg","")] = love.audio.newSource("assets/audio/mus/"..mus,"static")
+    end
 
     -- sfx
-    Assets["snd_recordscratch"] = love.audio.newSource(paths.audio("snd/snd_recordscratch"),"static")
-    Assets["snd_gunkayy"] = love.audio.newSource(paths.audio("snd/snd_gunkayy"),"static")
-    Assets["snd_josh"] = love.audio.newSource(paths.audio("snd/snd_josh"),"static") -- doodledip!
-    Assets["snd_3"] = love.audio.newSource(paths.audio("snd/snd_3"),"static")
-    Assets["snd_2"] = love.audio.newSource(paths.audio("snd/snd_2"),"static")
-    Assets["snd_1"] = love.audio.newSource(paths.audio("snd/snd_1"),"static")
-    Assets["snd_go"] = love.audio.newSource(paths.audio("snd/snd_go"),"static")
-
+    for _,sfx in ipairs(love.filesystem.getDirectoryItems("assets/audio/snd/")) do
+        print("LOADING "..sfx)
+        Assets[string.gsub(sfx,".ogg","")] = love.audio.newSource("assets/audio/snd/"..sfx,"static")
+    end
 
     -- states! these used to be at the top but stage needs characters and i dont wanna clutter state:enter!
-    States["recordsratch"] = require("states.recordsratch")
-    States["bwords"] = require("states.bwords")
-    States["title"] = require("states.title")
-    States["selectwords"] = require("states.selectwords")
-    States["freeplay"] = require("states.freeplay")
-    States["stage"] = require("states.stage")
+    for _,state in ipairs(love.filesystem.getDirectoryItems("states/")) do
+        print("LOADING "..state)
+        States[string.gsub(state,".lua","")] = love.filesystem.load("states/"..state)()
+    end
 
     Gamestate.registerEvents()
     Gamestate.switch(States.recordsratch)

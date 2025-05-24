@@ -1,6 +1,7 @@
 local paths = require "lib.paths"
 local coolshit = require "lib.coolshit"
 local state = {}
+state.name = "freeplay"
 
 local names = {}
 local swowses = {}
@@ -46,6 +47,12 @@ function state:keypressed(key)
         fade:setOnFinished(function()
             Gamestate.switch(States.stage,swowses[sel])
         end)
+    end
+    if key == "escape" then
+        fade = coolshit.newFade("in",0.1,0,0,0)
+        fade:setOnFinished(function()
+            Gamestate.switch(States.selectwords)
+        end)        
     end
     sel = coolshit.clamp(sel,1,#names)
 end

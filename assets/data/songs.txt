@@ -1,10 +1,14 @@
 misplaced;mus_misplaced;1
+cinemassacre;mus_cinemassacre;2
+break it down triangle man;mus_breakitdown;3
+channelsurfing & nermal;mus_channelsurf;4
+infographic;mus_frostbytep1;5
 i, robot;mus_tutorial;6
 summer;mus_w1s1;7
 stars;mus_w1s2;7
-girl next door;mus_w2s1;7
-gamejack;mus_w2s2;7
-twinkle;mus_w3s1;7
-tsunami;mus_w3s2;7
-satellite;mus_w4s1;7
-starfire;mus_w4s2;7
+girl next door;mus_w2s1;8
+gamejack;mus_w2s2;8
+twinkle;mus_w3s1;9
+tsunami;mus_w3s2;9
+satellite;mus_w4s1;10
+starfire;mus_w4s2;10

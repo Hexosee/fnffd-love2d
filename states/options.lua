@@ -1,4 +1,5 @@
 local state = {}
+state.name = "options"
 
 local bitser = require("lib.bitser")
 local coolshit = require("lib.coolshit")
