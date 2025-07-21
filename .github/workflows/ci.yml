@@ -12,9 +12,16 @@ jobs:
     - name: Update
       run: sudo apt-get update
     - name: Install Dependencies
-      run: sudo apt-get install --assume-yes wine-stable wine64 python3-pip wine32
+      run: sudo apt-get install --assume-yes wine-stable wine64 python3-pip
+      # makelove linux builds broke cause john appimage moved repo or something so i made a fork
+    - name: Checkout makelove
+      uses: actions/checkout@v2
+      with:
+        repository: Hexosee/makelove
+        path: makelove
     - name: Install makelove
-      run: pip3 install makelove
+      run:
+        pip3 install ./makelove
     - name: Build
       run: cd main/ && python3 -m makelove
 
