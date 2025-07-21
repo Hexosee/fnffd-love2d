@@ -1,4 +1,4 @@
-name: continuous-integration
+name: auto build
 on: [push]
 
 jobs:
@@ -29,15 +29,15 @@ jobs:
     - name: Artifact (love)
       uses: actions/upload-artifact@v4
       with:
-        name: love
+        name: .love file
         path: main/bin/love/fnffd-love2d.love
     - name: Artifact (AppImage)
       uses: actions/upload-artifact@v4
       with:
-        name: appimage
+        name: linux (appimage)
         path: main/bin/appimage/fnffd-love2d.AppImage
     - name: Artifact (Win64)
       uses: actions/upload-artifact@v4
       with:
-        name: win64
+        name: windows
         path: main/bin/win64/fnffd-love2d-win64.zip
